@@ -20,14 +20,14 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    /* Яркий красивый розовый градиент */
-    background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 50%, #ffb3c6 100%);
+    /* Идеальный мягкий серо-белый градиент для премиального фона */
+    background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
     font-family: 'Segoe UI', Roboto, sans-serif;
     overflow: hidden;
     position: relative;
 }
 
-/* --- ПРАЗДНИЧНЫЕ ФЛАЖКИ --- */
+/* --- СТИЛЬНЫЕ ЧЕРНЫЕ ФЛАЖКИ --- */
 .bunting-flags {
     position: absolute;
     top: 0;
@@ -37,26 +37,26 @@ body {
     justify-content: space-around;
     padding: 0 5px;
     z-index: 10;
-    border-top: 2px dashed #fb6f92;
+    border-top: 2px dashed #1a1a1a;
 }
 
 .flag {
     width: 28px;
     height: 42px;
-    background: #ff7096;
+    background: #1a1a1a;
     clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
     transform-origin: top center;
     animation: swing 3s infinite ease-in-out;
 }
 
 .flag:nth-child(even) {
-    background: #fb6f92;
+    background: #404040;
     animation-delay: 0.4s;
     height: 48px;
 }
 
 .flag:nth-child(3n) {
-    background: #ff8fab;
+    background: #262626;
     animation-delay: 0.15s;
 }
 
@@ -65,7 +65,7 @@ body {
     50% { transform: rotate(6deg); }
 }
 
-/* --- РОЗОВАЯ ВОЛНА ВНИЗУ --- */
+/* --- ЧЕРНАЯ ВОЛНА ВНИЗУ --- */
 .bottom-wave {
     position: absolute;
     bottom: -10px;
@@ -81,21 +81,21 @@ body {
     height: 100px;
 }
 
-/* --- КАРТОЧКИ И ИНТЕРФЕЙС --- */
+/* --- МАТОВЫЕ КАРТОЧКИ --- */
 .card {
     display: none;
     opacity: 0;
     transform: scale(0.93) translateY(15px);
-    background: rgba(255, 255, 255, 0.93);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     padding: 35px 25px;
     border-radius: 24px;
-    box-shadow: 0 12px 30px rgba(251, 111, 146, 0.25);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
     max-width: 350px;
     width: 88%;
     text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     transition: opacity 0.4s ease, transform 0.4s ease;
     z-index: 15;
 }
@@ -113,16 +113,17 @@ body {
 }
 
 .title {
-    color: #ff477e;
+    color: #1a1a1a;
     font-size: 2rem;
     margin: 12px 0;
     font-weight: bold;
+    letter-spacing: -0.5px;
 }
 
 .message {
     color: #4a4a4a;
     font-size: 1.05rem;
-    line-height: 1.5;
+    line-height: 1.55;
     margin-bottom: 25px;
 }
 
@@ -130,21 +131,21 @@ body {
     width: 100%;
     padding: 13px 20px;
     margin-bottom: 22px;
-    border: 2px solid #ff7096;
+    border: 2px solid #1a1a1a;
     border-radius: 50px;
     font-size: 1rem;
     text-align: center;
     transition: all 0.3s ease;
     background: #ffffff;
+    color: #1a1a1a;
 }
 
 .input-field:focus {
-    box-shadow: 0 0 10px rgba(255, 71, 126, 0.4);
-    border-color: #ff477e;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .btn {
-    background: linear-gradient(45deg, #ff477e, #ff7096);
+    background: #1a1a1a;
     color: white;
     border: none;
     padding: 14px 32px;
@@ -152,12 +153,13 @@ body {
     font-weight: bold;
     border-radius: 50px;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(255, 71, 126, 0.35);
-    transition: transform 0.1s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.1s ease, background 0.2s;
 }
 
 .btn:active {
     transform: scale(0.96);
+    background: #333333;
 }
 
 /* --- ПРОМЕЖУТОЧНЫЙ ТЕКСТ --- */
@@ -179,14 +181,14 @@ body {
 
 .transit-text {
     font-size: 2.3rem;
-    color: #ff477e;
+    color: #1a1a1a;
     font-weight: bold;
-    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.9);
     text-align: center;
     line-height: 1.4;
 }
 
-/* --- КОНВЕРТ --- */
+/* --- СТРОГИЙ СТИЛЬНЫЙ КОНВЕРТ --- */
 .envelope-container {
     display: none;
     flex-direction: column;
@@ -199,10 +201,10 @@ body {
 
 .envelope-hint {
     font-size: 1.6rem;
-    color: white;
+    color: #1a1a1a;
     font-weight: bold;
     margin-bottom: 15px;
-    text-shadow: 0 2px 8px rgba(255, 71, 126, 0.6);
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.8);
     animation: bounce 1.2s infinite ease-in-out;
 }
 
@@ -210,11 +212,11 @@ body {
     position: relative;
     width: 280px;
     height: 185px;
-    background: #fdf5f6;
+    background: #ffffff;
     border-radius: 0 0 12px 12px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
     cursor: pointer;
-    border: 1px solid rgba(255, 71, 126, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .top-flap {
@@ -225,7 +227,7 @@ body {
     height: 0;
     border-left: 140px solid transparent;
     border-right: 140px solid transparent;
-    border-top: 100px solid #f3d1d6;
+    border-top: 100px solid #e0e0e0;
     transform-origin: top;
     transition: transform 0.5s ease, z-index 0.2s;
     z-index: 3;
@@ -235,7 +237,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #fbf0f2;
+    background: #fafafa;
     border-radius: 0 0 12px 12px;
     overflow: hidden;
     z-index: 2;
@@ -248,8 +250,8 @@ body {
     left: 0;
     width: 0;
     height: 0;
-    border-left: 140px solid #f9e2e5;
-    border-right: 140px solid #f9e2e5;
+    border-left: 140px solid #f0f0f0;
+    border-right: 140px solid #f0f0f0;
     border-top: 95px solid transparent;
 }
 
@@ -261,7 +263,7 @@ body {
     background: white;
     padding: 4px;
     border-radius: 6px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
 .recipient {
@@ -270,14 +272,14 @@ body {
     left: 20px;
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.85rem;
-    color: #887275;
+    color: #777777;
 }
 
 .recipient span {
     font-family: 'Segoe UI', sans-serif;
     font-size: 1.5rem;
     font-weight: bold;
-    color: #3a3a3a;
+    color: #1a1a1a;
 }
 
 .envelope.opened .top-flap {
@@ -291,7 +293,7 @@ body {
     perspective: 1000px;
     width: 88%;
     max-width: 350px;
-    height: 440px;
+    height: 450px;
     opacity: 0;
     transition: opacity 0.4s ease;
     z-index: 15;
@@ -321,9 +323,9 @@ body {
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     border-radius: 24px;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 12px 30px rgba(251, 111, 146, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: #ffffff;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     padding: 25px;
 }
 
@@ -337,7 +339,7 @@ body {
 }
 
 .question-title {
-    color: #ff477e;
+    color: #1a1a1a;
     font-size: 1.7rem;
     margin-bottom: 40px;
     text-align: center;
@@ -361,26 +363,26 @@ body {
 }
 
 .btn-yes {
-    background: #4caf50;
+    background: #1a1a1a;
     color: white;
     left: 10px;
     bottom: 15px;
-    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .btn-no {
-    background: #f44336;
+    background: #f44336; /* Оставим красной для понятности интерактива */
     color: white;
     right: 10px;
     bottom: 15px;
     box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
 }
 
-/* Задняя сторона (Текст поздравления) */
+/* Задняя сторона открытки */
 .back-card {
     transform: rotateY(180deg);
-    background: #fffdfd;
-    border: 2px dashed #ffb3c6;
+    background: #ffffff;
+    border: 2px dashed #1a1a1a;
 }
 
 .scrollable-content {
@@ -394,7 +396,7 @@ body {
 }
 
 .final-title {
-    color: #ff477e;
+    color: #1a1a1a;
     font-size: 1.35rem;
     margin-top: 0;
     margin-bottom: 12px;
@@ -402,7 +404,7 @@ body {
 }
 
 .final-text {
-    color: #4a4a4a;
+    color: #333333;
     font-size: 0.98rem;
     line-height: 1.55;
     margin: 0;
@@ -414,10 +416,10 @@ body {
     text-align: right;
     font-size: 1.15rem;
     font-weight: bold;
-    color: #ff477e;
+    color: #1a1a1a;
 }
 
-/* Сердечки */
+/* Летающие черно-белые элементы салюта */
 .hearts-container {
     position: absolute;
     top: 0;
