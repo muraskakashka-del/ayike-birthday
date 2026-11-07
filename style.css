@@ -1,458 +1,220 @@
-* {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
-    box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Днем Рождения! 🎉</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body oncontextmenu="return false;" onselectstart="return false;">
 
-input {
-    -webkit-user-select: text;
-    user-select: text;
-}
+    <!-- Розовые праздничные флажки наверху -->
+    <div class="bunting-flags">
+        <div class="flag"></div>
+        <div class="flag"></div>
+        <div class="flag"></div>
+        <div class="flag"></div>
+        <div class="flag"></div>
+        <div class="flag"></div>
+        <div class="flag"></div>
+        <div class="flag"></div>
+    </div>
 
-body {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    /* Насыщенный розовый градиент для фона */
-    background: linear-gradient(135deg, #ffe5ec 0%, #ffb3c6 100%);
-    font-family: 'Segoe UI', Roboto, sans-serif;
-    overflow: hidden;
-    position: relative;
-}
+    <!-- Декоративная волна внизу экрана -->
+    <div class="bottom-wave">
+        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path fill="#ff8fab" fill-opacity="1" d="M0,160L60,176C120,192,240,224,360,224C480,224,600,192,720,160C840,128,960,64,1080,48C1200,32,1320,64,1380,80L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
+        </svg>
+    </div>
 
-/* --- ДЕКОРАТИВНЫЕ ФЛАЖКИ (НАВЕРХУ) --- */
-.bunting-flags {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    padding: 0 10px;
-    z-index: 10;
-    border-top: 2px dashed #fb6f92;
-}
+    <div class="hearts-container" id="heartsContainer"></div>
 
-.flag {
-    width: 30px;
-    height: 45px;
-    background: #ff7096;
-    clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    transform-origin: top center;
-    animation: swing 3s infinite ease-in-out;
-}
+    <!-- ШАГ 1: Приветствие -->
+    <div class="card active" id="step1">
+        <div class="heart-icon">💖</div>
+        <h1 class="title">С Днем Рождения! 🎉</h1>
+        <p class="message">Сегодня особенный день, и у меня для тебя есть небольшой интерактивный сюрприз. Готова проверить свою интуицию?</p>
+        <button class="btn" onclick="goToStep2()">Я готова! ✨</button>
+    </div>
 
-.flag:nth-child(even) {
-    background: #fb6f92;
-    animation-delay: 0.5s;
-    height: 50px;
-}
+    <!-- ШАГ 2: Загадка -->
+    <div class="card" id="step2">
+        <div class="heart-icon">🤔</div>
+        <h1 class="title">Загадка!</h1>
+        <p class="message">А теперь отгадай, какие 3 волшебных слова я загадал) 😉</p>
+        <input type="text" id="riddleInput" class="input-field" placeholder="Введите 3 волшебных слова..." autocomplete="off">
+        <button class="btn" onclick="checkAnswer()">Проверить 🚀</button>
+    </div>
 
-.flag:nth-child(3n) {
-    background: #ff8fab;
-    animation-delay: 0.2s;
-}
+    <!-- ПРОМЕЖУТОЧНЫЙ ШАГ: Плавный исчезающий текст -->
+    <div class="fade-text-container" id="stepTransit">
+        <h1 class="transit-text">Айике,<br>это для тебя</h1>
+    </div>
 
-@keyframes swing {
-    0%, 100% { transform: rotate(-5deg); }
-    50% { transform: rotate(5deg); }
-}
+    <!-- ШАГ 3: Конверт -->
+    <div class="envelope-container" id="step3">
+        <div class="envelope-hint">Нажми) 👇</div>
+        <div class="envelope" onclick="openEnvelope()">
+            <div class="top-flap"></div>
+            <div class="envelope-body">
+                <div class="stamp">🎈</div>
+                <div class="recipient">Получатель:<br><span>Айике</span></div>
+            </div>
+        </div>
+    </div>
 
-/* --- ДЕКОРАТИВНАЯ РОЗОВАЯ ВОЛНА (ВНИЗУ) --- */
-.bottom-wave {
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 100%;
-    line-height: 0;
-    z-index: 5;
-}
+    <!-- ШАГ 4: Интерактивная открытка -->
+    <div class="flip-container" id="step4">
+        <div class="flipper" id="flipper">
+            
+            <!-- ПЕРЕДНЯЯ СТОРОНА -->
+            <div class="front-card">
+                <h2 class="question-title">Хочешь прочитать? 😊</h2>
+                <div class="buttons-row">
+                    <button class="btn-choice btn-yes" onclick="showLetterText()">Да</button>
+                    <button class="btn-choice btn-no" id="noBtn" onmouseenter="teleportNoButton()" ontouchstart="teleportNoButton(event)" onclick="teleportNoButton(event)">Нет</button>
+                </div>
+            </div>
 
-.bottom-wave svg {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 120px;
-}
+            <!-- ЗАДНЯЯ СТОРОНА -->
+            <div class="back-card">
+                <div class="scrollable-content">
+                    <h2 class="final-title">Айике, с днем рождения! ✨</h2>
+                    <p class="final-text">
+                        Я не хотел отделываться обычным сообщением, так что среди сотни сообщений решил выделить именно свое поздравление.Ты стала мне очень близкой подругой,возможно и больше чем подругой😏, я очень тобой дорожу. Желаю всего чего только можно пожелать. 
+                        <br><br>
+                        Я это начал делать еще заранее перед твоим день рождением, делал 4 месяца каждый день. Приходилось изучать новый для меня вид кодинга. Но для такого подарка не жалко!
+                        <br><br>
+                        И все получилось, это поздравление я делал всей душой от чистого сердца.) ❤️
+                    </p>
+                    <div class="final-signature">от Мурасика</div>
+                </div>
+            </div>
 
-/* --- ПРОМЕЖУТОЧНЫЙ ПЛАВНЫЙ ТЕКСТ --- */
-.fade-text-container {
-    display: none;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-    z-index: 20;
-    opacity: 0;
-    transition: opacity 0.8s ease-in-out;
-}
+        </div>
+    </div>
 
-.fade-text-container.visible {
-    opacity: 1;
-}
+    <script>
+        let noClickCount = 0;
 
-.transit-text {
-    font-size: 2.5rem;
-    color: #ff477e;
-    font-weight: bold;
-    text-shadow: 0 4px 15px rgba(255, 255, 255, 0.7);
-    text-align: center;
-    line-height: 1.4;
-    font-family: 'Segoe UI', sans-serif;
-}
+        function goToStep2() {
+            fadeOutAndShow('step1', 'step2');
+        }
 
-/* Карточки */
-.card {
-    display: none;
-    opacity: 0;
-    transform: scale(0.95) translateY(10px);
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 40px 30px;
-    border-radius: 24px;
-    box-shadow: 0 15px 35px rgba(255, 105, 180, 0.2);
-    max-width: 380px;
-    width: 85%;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    z-index: 15;
-}
+        function checkAnswer() {
+            const inputField = document.getElementById('riddleInput');
+            if (!inputField) return;
+            const input = (inputField.value || '').toLowerCase().trim();
+            
+            if (input.includes('россия') && input.includes('путин') && input.includes('победа')) {
+                createHeartsShower();
+                
+                // Переход к плавному тексту перед письмом
+                const s2 = document.getElementById('step2');
+                s2.classList.remove('active');
+                setTimeout(() => {
+                    s2.style.display = 'none';
+                    
+                    const transit = document.getElementById('stepTransit');
+                    transit.style.display = 'flex';
+                    setTimeout(() => transit.classList.add('visible'), 50);
+                    
+                    // Показываем текст 2.5 секунды, потом гасим и плавно выводим конверт
+                    setTimeout(() => {
+                        transit.classList.remove('visible');
+                        setTimeout(() => {
+                            transit.style.display = 'none';
+                            const s3 = document.getElementById('step3');
+                            s3.style.display = 'flex';
+                            setTimeout(() => s3.classList.add('active-block'), 50);
+                        }, 800);
+                    }, 2500);
+                    
+                }, 400);
 
-.card.active {
-    display: block;
-    opacity: 1;
-    transform: scale(1) translateY(0);
-}
+            } else {
+                alert('Думай лучше! 😉');
+            }
+        }
 
-.heart-icon {
-    font-size: 3.5rem;
-    animation: pulse 1.5s infinite ease-in-out;
-    display: inline-block;
-}
+        function openEnvelope() {
+            const envelope = document.querySelector('.envelope');
+            envelope.classList.add('opened');
+            
+            setTimeout(() => {
+                document.getElementById('step3').classList.remove('active-block');
+                document.getElementById('step3').style.display = 'none';
+                
+                const step4 = document.getElementById('step4');
+                step4.style.display = 'block';
+                setTimeout(() => step4.classList.add('active-block'), 50);
+            }, 1200);
+        }
 
-.title {
-    color: #ff477e;
-    font-size: 2.2rem;
-    margin: 15px 0;
-    font-weight: bold;
-}
+        function showLetterText() {
+            createHeartsShower();
+            document.getElementById('flipper').classList.add('flipped');
+        }
 
-.message {
-    color: #4f4f4f;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 25px;
-}
+        // Логика телепортации и смены текста на кнопке "Нет"
+        function teleportNoButton(e) {
+            if (e) e.preventDefault();
+            
+            const noBtn = document.getElementById('noBtn');
+            const container = document.querySelector('.front-card');
+            
+            noClickCount++;
+            if (noClickCount === 1) {
+                noBtn.innerText = "нажми на да";
+            } else if (noClickCount >= 2) {
+                noBtn.innerText = "у тебя нет выбора)";
+            }
+            
+            const padding = 20;
+            const maxX = container.clientWidth - noBtn.clientWidth - padding;
+            const maxY = container.clientHeight - noBtn.clientHeight - padding;
+            
+            let randomX = Math.random() * (maxX - padding) + padding;
+            let randomY = Math.random() * (maxY - padding) + padding;
 
-.input-field {
-    width: 100%;
-    padding: 14px 20px;
-    margin-bottom: 25px;
-    border: 2px solid #ff7096;
-    border-radius: 50px;
-    font-size: 1rem;
-    text-align: center;
-    transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.95);
-}
+            if (randomX < 140 && randomY > maxY - 80) {
+                randomX = maxX - 10;
+                randomY = padding;
+            }
 
-.input-field:focus {
-    box-shadow: 0 0 12px rgba(255, 71, 126, 0.4);
-    border-color: #ff477e;
-}
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
 
-.btn {
-    background: linear-gradient(45deg, #ff477e, #ff7096);
-    color: white;
-    border: none;
-    padding: 15px 35px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 5px 20px rgba(255, 71, 126, 0.3);
-    transition: all 0.2s ease-in-out;
-}
+        function fadeOutAndShow(hideId, showId) {
+            const hideEl = document.getElementById(hideId);
+            const showEl = document.getElementById(showId);
+            
+            hideEl.classList.remove('active', 'active-block');
+            setTimeout(() => {
+                hideEl.style.display = 'none';
+                showEl.style.display = 'block';
+                setTimeout(() => showEl.classList.add('active'), 50);
+            }, 400);
+        }
 
-.btn:active {
-    transform: scale(0.96);
-}
-
-/* --- КОНВЕРТ --- */
-.envelope-container {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    width: 100%;
-    z-index: 15;
-}
-
-.envelope-hint {
-    font-size: 1.8rem;
-    color: white;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-shadow: 0 2px 10px rgba(255, 71, 126, 0.5);
-    animation: bounce 1.2s infinite ease-in-out;
-}
-
-.envelope {
-    position: relative;
-    width: 300px;
-    height: 200px;
-    background: #fdf5f6;
-    border-radius: 0 0 12px 12px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-    cursor: pointer;
-    border: 1px solid rgba(255, 71, 126, 0.1);
-}
-
-.top-flap {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-left: 150px solid transparent;
-    border-right: 150px solid transparent;
-    border-top: 110px solid #f3d1d6;
-    transform-origin: top;
-    transition: transform 0.6s ease, z-index 0.2s;
-    z-index: 3;
-}
-
-.envelope-body {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: #fbf0f2;
-    border-radius: 0 0 12px 12px;
-    overflow: hidden;
-    z-index: 2;
-}
-
-.envelope-body::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-left: 150px solid #f9e2e5;
-    border-right: 150px solid #f9e2e5;
-    border-top: 100px solid transparent;
-}
-
-.stamp {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 2rem;
-    background: white;
-    padding: 5px;
-    border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.recipient {
-    position: absolute;
-    bottom: 30px;
-    left: 25px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 0.9rem;
-    color: #887275;
-    line-height: 1.3;
-}
-
-.recipient span {
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: #3a3a3a;
-}
-
-.envelope.opened .top-flap {
-    transform: rotateX(180deg);
-    z-index: 1;
-}
-
-/* --- ИНТЕРАКТИВНАЯ ОТКРЫТКА --- */
-.flip-container {
-    display: none;
-    perspective: 1000px;
-    width: 85%;
-    max-width: 380px;
-    height: 450px;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: 15;
-}
-
-.active-block {
-    display: flex !important;
-    opacity: 1 !important;
-}
-
-.flipper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-style: preserve-3d;
-}
-
-.flipper.flipped {
-    transform: rotateY(180deg);
-}
-
-.front-card, .back-card {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 15px 35px rgba(255, 105, 180, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    padding: 30px;
-}
-
-.front-card {
-    z-index: 2;
-    transform: rotateY(0deg);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.question-title {
-    color: #ff477e;
-    font-size: 1.8rem;
-    margin-bottom: 50px;
-    text-align: center;
-}
-
-.buttons-row {
-    position: relative;
-    width: 100%;
-    height: 200px;
-}
-
-.btn-choice {
-    position: absolute;
-    padding: 12px 30px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-.btn-yes {
-    background: #4caf50;
-    color: white;
-    left: 10px;
-    bottom: 20px;
-    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-}
-
-.btn-no {
-    background: #f44336;
-    color: white;
-    right: 10px;
-    bottom: 20px;
-    box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
-}
-
-/* Обратная сторона (Текст) */
-.back-card {
-    transform: rotateY(180deg);
-    background: #fffdfd;
-    border: 2px dashed #ffb3c6;
-}
-
-.scrollable-content {
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    padding-right: 5px;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-}
-
-.final-title {
-    color: #ff477e;
-    font-size: 1.5rem;
-    margin-top: 0;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.final-text {
-    color: #4a4a4a;
-    font-size: 1.05rem;
-    line-height: 1.6;
-}
-
-/* Фирменная подпись в конце */
-.final-signature {
-    margin-top: auto;
-    padding-top: 15px;
-    text-align: right;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #ff477e;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-/* Сердечки-салют */
-.hearts-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 999;
-}
-
-.floating-heart {
-    position: absolute;
-    pointer-events: none;
-    animation: flyUp linear forwards;
-}
-
-@keyframes flyUp {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(-105vh) rotate(360deg); opacity: 0; }
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.08); }
-    100% { transform: scale(1); }
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-}
+        function createHeartsShower() {
+            const container = document.getElementById('heartsContainer');
+            for (let i = 0; i < 60; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerText = ['💖', '🎉', '✨', '💝', '🌸'][Math.floor(Math.random() * 5)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '100vh';
+                heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                heart.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+                heart.style.opacity = Math.random();
+                container.appendChild(heart);
+                setTimeout(() => heart.remove(), 3000);
+            }
+        }
+    </script>
+</body>
+</html>
+                
