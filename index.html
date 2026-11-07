@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>С Днем Рождения! 🎉</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Библиотека для конфетти -->
-    <script src="https://jsdelivr.net"></script>
 </head>
-<body>
+<body oncontextmenu="return false;" onselectstart="return false;">
+
+    <!-- Эффект падающих сердечек на фоне -->
+    <div class="hearts-container" id="heartsContainer"></div>
 
     <!-- Шаг 1: Главное приветствие -->
-    <div class="card" id="step1">
+    <div class="card active" id="step1">
         <div class="heart-icon">💖</div>
         <h1 class="title">С Днем Рождения! 🎉</h1>
         <p class="message">Сегодня особенный день, и у меня для тебя есть небольшой интерактивный сюрприз. Готова проверить свою интуицию?</p>
@@ -19,53 +20,80 @@
     </div>
 
     <!-- Шаг 2: Карточка с загадкой -->
-    <div class="card hidden" id="step2">
+    <div class="card" id="step2">
         <div class="heart-icon">🤔</div>
         <h1 class="title">Загадка!</h1>
         <p class="message">А теперь отгадай, какие 3 волшебных слова я загадал) 😉</p>
         
-        <!-- Поле для ввода ответа -->
-        <input type="text" id="riddleInput" class="input-field" placeholder="Введите 3 волшебных слова...">
-        
+        <input type="text" id="riddleInput" class="input-field" placeholder="Введите 3 волшебных слова..." autocomplete="off">
         <button class="btn" onclick="checkAnswer()">Проверить 🚀</button>
     </div>
 
-    <!-- Шаг 3: Финальное поздравление (открывается при успехе) -->
-    <div class="card hidden" id="step3">
+    <!-- Шаг 3: Финальное поздравление -->
+    <div class="card" id="step3">
         <div class="heart-icon">👑</div>
         <h1 class="title">Ура-а-а! Отгадала!</h1>
         <p class="message">Абсолютно верно! Ты справилась на все 100%! Именно эти слова ведут к успеху. <br><br> Пусть этот день принесет тебе море улыбок, счастья и отличного настроения. Оставайся такой же прекрасной, умной и потрясающей! Настоящая победа — это то, что ты есть! 💐✨</p>
     </div>
 
     <script>
-        // Переход ко второму шагу
+        // Переход ко второму шагу с плавной анимацией
         function goToStep2() {
-            document.getElementById('step1').classList.add('hidden');
-            document.getElementById('step2').classList.remove('hidden');
+            const s1 = document.getElementById('step1');
+            const s2 = document.getElementById('step2');
+            
+            s1.classList.remove('active');
+            setTimeout(() => {
+                s1.style.display = 'none';
+                s2.style.display = 'block';
+                setTimeout(() => s2.classList.add('active'), 50);
+            }, 400);
         }
 
         // Проверка ответа
         function checkAnswer() {
-            const input = document.getElementById('riddleInput').value.toLowerCase();
+            const inputField = document.getElementById('riddleInput');
+            if (!inputField) return;
+
+            const input = (inputField.value || '').toLowerCase().trim();
             
-            // Проверяем наличие трех ключевых слов в тексте
             const hasRussia = input.includes('россия');
             const hasPutin = input.includes('путин');
             const hasWin = input.includes('победа');
 
             if (hasRussia && hasPutin && hasWin) {
-                // Если всё правильно: взрыв конфетти и переход к финалу
-                confetti({
-                    particleCount: 200,
-                    spread: 100,
-                    origin: { y: 0.6 }
-                });
+                // Запуск салюта из сердечек
+                createHeartsShower();
+
+                const s2 = document.getElementById('step2');
+                const s3 = document.getElementById('step3');
                 
-                document.getElementById('step2').classList.add('hidden');
-                document.getElementById('step3').classList.remove('hidden');
+                s2.classList.remove('active');
+                setTimeout(() => {
+                    s2.style.display = 'none';
+                    s3.style.display = 'block';
+                    setTimeout(() => s3.classList.add('active'), 50);
+                }, 400);
             } else {
-                // Если не угадала — всплывающее окно сверху
                 alert('Думай лучше! 😉');
+            }
+        }
+
+        // Чистый JS эффект праздничного салюта вместо тяжелых библиотек
+        function createHeartsShower() {
+            const container = document.getElementById('heartsContainer');
+            for (let i = 0; i < 50; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerText = ['💖', '🎉', '✨', '🌸', '💝'][Math.floor(Math.random() * 5)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '100vh';
+                heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                heart.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+                heart.style.opacity = Math.random();
+                container.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 3500);
             }
         }
     </script>
