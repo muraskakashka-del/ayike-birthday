@@ -5,17 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>С Днем Рождения! 🎉</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Библиотека для конфетти -->
+    <script src="https://jsdelivr.net"></script>
 </head>
 <body>
-    <div class="card">
-        <h1 class="title">С Днем Рождения! 💖</h1>
-        <p class="message">Сюда мы позже добавим твой самый главный и крутой текст поздравления. Нажми на кнопку ниже!</p>
-        <button class="btn" onclick="celebrate()">Нажми меня! ✨</button>
+
+    <!-- Шаг 1: Главное приветствие -->
+    <div class="card" id="step1">
+        <div class="heart-icon">💖</div>
+        <h1 class="title">С Днем Рождения! 🎉</h1>
+        <p class="message">Сегодня особенный день, и у меня для тебя есть небольшой интерактивный сюрприз. Готова проверить свою интуицию?</p>
+        <button class="btn" onclick="goToStep2()">Я готова! ✨</button>
+    </div>
+
+    <!-- Шаг 2: Карточка с загадкой -->
+    <div class="card hidden" id="step2">
+        <div class="heart-icon">🤔</div>
+        <h1 class="title">Загадка!</h1>
+        <p class="message">А теперь отгадай, какие 3 волшебных слова я загадал) 😉</p>
+        
+        <!-- Поле для ввода ответа -->
+        <input type="text" id="riddleInput" class="input-field" placeholder="Введите 3 волшебных слова...">
+        
+        <button class="btn" onclick="checkAnswer()">Проверить 🚀</button>
+    </div>
+
+    <!-- Шаг 3: Финальное поздравление (открывается при успехе) -->
+    <div class="card hidden" id="step3">
+        <div class="heart-icon">👑</div>
+        <h1 class="title">Ура-а-а! Отгадала!</h1>
+        <p class="message">Абсолютно верно! Ты справилась на все 100%! Именно эти слова ведут к успеху. <br><br> Пусть этот день принесет тебе море улыбок, счастья и отличного настроения. Оставайся такой же прекрасной, умной и потрясающей! Настоящая победа — это то, что ты есть! 💐✨</p>
     </div>
 
     <script>
-        function celebrate() {
-            alert('Здесь будет запускаться какой-нибудь крутой эффект (конфетти, музыка или появление скрытого фото)!');
+        // Переход ко второму шагу
+        function goToStep2() {
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+        }
+
+        // Проверка ответа
+        function checkAnswer() {
+            const input = document.getElementById('riddleInput').value.toLowerCase();
+            
+            // Проверяем наличие трех ключевых слов в тексте
+            const hasRussia = input.includes('россия');
+            const hasPutin = input.includes('путин');
+            const hasWin = input.includes('победа');
+
+            if (hasRussia && hasPutin && hasWin) {
+                // Если всё правильно: взрыв конфетти и переход к финалу
+                confetti({
+                    particleCount: 200,
+                    spread: 100,
+                    origin: { y: 0.6 }
+                });
+                
+                document.getElementById('step2').classList.add('hidden');
+                document.getElementById('step3').classList.remove('hidden');
+            } else {
+                // Если не угадала — всплывающее окно сверху
+                alert('Думай лучше! 😉');
+            }
         }
     </script>
 </body>
