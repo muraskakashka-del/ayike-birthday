@@ -2,11 +2,30 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>С Днем Рождения! 🎉</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body oncontextmenu="return false;" onselectstart="return false;">
+
+    <!-- Праздничные флажки наверху -->
+    <div class="bunting-flags">
+        <div class="flag"></div>
+        <div class="flag"></div>
+        <div class="flag"></div>
+        <div class="flag"></div>
+        <div class="flag"></div>
+        <div class="flag"></div>
+        <div class="flag"></div>
+        <div class="flag"></div>
+    </div>
+
+    <!-- Розовая волна внизу экрана -->
+    <div class="bottom-wave">
+        <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path fill="#fb6f92" fill-opacity="1" d="M0,160L60,176C120,192,240,224,360,224C480,224,600,192,720,160C840,128,960,64,1080,48C1200,32,1320,64,1380,80L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
+        </svg>
+    </div>
 
     <div class="hearts-container" id="heartsContainer"></div>
 
@@ -27,7 +46,12 @@
         <button class="btn" onclick="checkAnswer()">Проверить 🚀</button>
     </div>
 
-    <!-- ШАГ 3: Конверт "Нажми)" -->
+    <!-- ПРОМЕЖУТОЧНЫЙ ШАГ: Исчезающий текст -->
+    <div class="fade-text-container" id="stepTransit">
+        <h1 class="transit-text">Айике,<br>это для тебя</h1>
+    </div>
+
+    <!-- ШАГ 3: Конверт -->
     <div class="envelope-container" id="step3">
         <div class="envelope-hint">Нажми) 👇</div>
         <div class="envelope" onclick="openEnvelope()">
@@ -39,30 +63,35 @@
         </div>
     </div>
 
-    <!-- ШАГ 4: Интерактивная открытка (Вопрос / Ответ) -->
+    <!-- ШАГ 4: Интерактивная открытка -->
     <div class="flip-container" id="step4">
         <div class="flipper" id="flipper">
             
-            <!-- ПЕРЕДНЯЯ СТОРОНА: Вопрос и убегающая кнопка -->
+            <!-- ПЕРЕДНЯЯ СТОРОНА (Вопрос) -->
             <div class="front-card">
                 <h2 class="question-title">Хочешь прочитать? 😊</h2>
                 <div class="buttons-row">
                     <button class="btn-choice btn-yes" onclick="showLetterText()">Да</button>
-                    <button class="btn-choice btn-no" id="noBtn" onmouseover="moveNoButton()" onclick="moveNoButton()">Нет</button>
+                    <button class="btn-choice btn-no" id="noBtn" onmouseenter="teleportNoButton()" ontouchstart="teleportNoButton(event)" onclick="teleportNoButton(event)">Нет</button>
                 </div>
             </div>
 
-            <!-- ЗАДНЯЯ СТОРОНА: Твой финальный текст -->
+            <!-- ЗАДНЯЯ СТОРОНА (Твой текст) -->
             <div class="back-card">
                 <div class="scrollable-content">
                     <h2 class="final-title">Айике, с днем рождения! ✨</h2>
                     <p class="final-text">
-                        Ты стала мне очень близкой подругой,возможно даже больше чем подругой😏, я очень тобой дорожу. Желаю всего чего только можно пожелать. 
+                        Я не хотел отделываться обычным поздравлением, так что решил сделать такое вот поздравление.
                         <br><br>
-                        Я это начал делать еще заранее перед твоим день рождением, делал 4 месяца каждый день. Приходилось изучать новый для меня вид кодинга. 
+                        Ты стала очень близкой мне подругой, возможно даже больше чем подругой😏, я очень тобой дорожу и ценю тебя. Желаю всего чего только можно пожелать.
                         <br><br>
-                        И все получилось, это поздравление я делал от чистого сердца.) ❤️
+                        Я это начал делать еще 4 месяца назад, когда писал в тик токе "жди", приходилось каждый день одновременно изучать новый вид кодинга. Но как видишь я справился.
+                        <br><br>
+                        Будь красивой какая ты есть всегда.
+                        <br><br>
+                        Это поздравление делал тебе от души и от всего сердца.) ❤️
                     </p>
+                    <div class="final-signature">от Мурасика</div>
                 </div>
             </div>
 
@@ -70,6 +99,8 @@
     </div>
 
     <script>
+        let noClickCount = 0;
+
         function goToStep2() {
             fadeOutAndShow('step1', 'step2');
         }
@@ -81,49 +112,77 @@
             
             if (input.includes('россия') && input.includes('путин') && input.includes('победа')) {
                 createHeartsShower();
-                fadeOutAndShow('step2', 'step3');
+                
+                const s2 = document.getElementById('step2');
+                s2.classList.remove('active');
+                
+                setTimeout(() => {
+                    s2.style.display = 'none';
+                    const transit = document.getElementById('stepTransit');
+                    transit.style.display = 'flex';
+                    
+                    setTimeout(() => transit.classList.add('visible'), 50);
+                    
+                    setTimeout(() => {
+                        transit.classList.remove('visible');
+                        setTimeout(() => {
+                            transit.style.display = 'none';
+                            const s3 = document.getElementById('step3');
+                            s3.style.display = 'flex';
+                            setTimeout(() => s3.classList.add('active-block'), 50);
+                        }, 600);
+                    }, 2200);
+                    
+                }, 400);
+
             } else {
                 alert('Думай лучше! 😉');
             }
         }
 
-        // Анимация открытия конверта и переход к карточке с кнопками
         function openEnvelope() {
             const envelope = document.querySelector('.envelope');
             envelope.classList.add('opened');
             
             setTimeout(() => {
-                document.getElementById('step3').classList.remove('active-block');
-                document.getElementById('step3').style.display = 'none';
+                const s3 = document.getElementById('step3');
+                s3.classList.remove('active-block');
+                s3.style.display = 'none';
                 
-                const step4 = document.getElementById('step4');
-                step4.style.display = 'block';
-                setTimeout(() => step4.classList.add('active-block'), 50);
-            }, 1200);
+                const s4 = document.getElementById('step4');
+                s4.style.display = 'block';
+                setTimeout(() => s4.classList.add('active-block'), 50);
+            }, 1000);
         }
 
-        // Переворот карточки на финальный текст
         function showLetterText() {
             createHeartsShower();
             document.getElementById('flipper').classList.add('flipped');
         }
 
-        // Логика убегания кнопки "Нет"
-        function moveNoButton() {
+        function teleportNoButton(e) {
+            if (e) e.preventDefault();
+            
             const noBtn = document.getElementById('noBtn');
             const container = document.querySelector('.front-card');
             
-            // Вычисляем случайные координаты внутри карточки
-            const maxX = container.clientWidth - noBtn.clientWidth - 20;
-            const maxY = container.clientHeight - noBtn.clientHeight - 20;
+            noClickCount++;
+            if (noClickCount === 1) {
+                noBtn.innerText = "нажми на да";
+            } else if (noClickCount >= 2) {
+                noBtn.innerText = "у тебя нет выбора)";
+            }
             
-            let randomX = Math.random() * maxX;
-            let randomY = Math.random() * maxY;
+            const padding = 15;
+            const maxX = container.clientWidth - noBtn.clientWidth - padding;
+            const maxY = container.clientHeight - noBtn.clientHeight - padding;
+            
+            let randomX = Math.random() * (maxX - padding) + padding;
+            let randomY = Math.random() * (maxY - padding) + padding;
 
-            // Корректируем, чтобы кнопка не улетала слишком близко к "Да" (в левый нижний угол)
-            if (randomX < 120 && randomY > maxY - 80) {
-                randomX = maxX - 20;
-                randomY = 20;
+            if (randomX < 130 && randomY > maxY - 70) {
+                randomX = maxX - 10;
+                randomY = padding;
             }
 
             noBtn.style.position = 'absolute';
@@ -135,27 +194,27 @@
             const hideEl = document.getElementById(hideId);
             const showEl = document.getElementById(showId);
             
-            hideEl.classList.remove('active', 'active-block');
+            hideEl.classList.remove('active');
             setTimeout(() => {
                 hideEl.style.display = 'none';
-                showEl.style.display = showId === 'step3' ? 'flex' : 'block';
-                setTimeout(() => showEl.classList.add(showId === 'step3' ? 'active-block' : 'active'), 50);
+                showEl.style.display = 'block';
+                setTimeout(() => showEl.classList.add('active'), 50);
             }, 400);
         }
 
         function createHeartsShower() {
             const container = document.getElementById('heartsContainer');
-            for (let i = 0; i < 60; i++) {
+            for (let i = 0; i < 50; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'floating-heart';
-                heart.innerText = ['💖', '🎉', '✨', '💝', '🌸'][Math.floor(Math.random() * 5)];
+                heart.innerText = ['💖', '🎉', '✨', '🌸', '💝'][Math.floor(Math.random() * 5)];
                 heart.style.left = Math.random() * 100 + 'vw';
                 heart.style.top = '100vh';
-                heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                heart.style.fontSize = (Math.random() * 15 + 20) + 'px';
                 heart.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
                 heart.style.opacity = Math.random();
                 container.appendChild(heart);
-                setTimeout(() => heart.remove(), 3000);
+                setTimeout(() => heart.remove(), 2500);
             }
         }
     </script>
