@@ -8,7 +8,7 @@
 </head>
 <body oncontextmenu="return false;" onselectstart="return false;">
 
-    <!-- Праздничные флажки наверху -->
+    <!-- Стильные черные флажки наверху -->
     <div class="bunting-flags">
         <div class="flag"></div>
         <div class="flag"></div>
@@ -20,10 +20,10 @@
         <div class="flag"></div>
     </div>
 
-    <!-- Розовая волна внизу экрана -->
+    <!-- Черная эстетичная волна внизу экрана -->
     <div class="bottom-wave">
         <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
-            <path fill="#fb6f92" fill-opacity="1" d="M0,160L60,176C120,192,240,224,360,224C480,224,600,192,720,160C840,128,960,64,1080,48C1200,32,1320,64,1380,80L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
+            <path fill="#1a1a1a" fill-opacity="1" d="M0,160L60,176C120,192,240,224,360,224C480,224,600,192,720,160C840,128,960,64,1080,48C1200,32,1320,64,1380,80L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
         </svg>
     </div>
 
@@ -31,7 +31,7 @@
 
     <!-- ШАГ 1: Приветствие -->
     <div class="card active" id="step1">
-        <div class="heart-icon">💖</div>
+        <div class="heart-icon">🖤</div>
         <h1 class="title">С Днем Рождения! 🎉</h1>
         <p class="message">Сегодня особенный день, и у меня для тебя есть небольшой интерактивный сюрприз. Готова проверить свою интуицию?</p>
         <button class="btn" onclick="goToStep2()">Я готова! ✨</button>
@@ -51,13 +51,13 @@
         <h1 class="transit-text">Айике,<br>это для тебя</h1>
     </div>
 
-    <!-- ШАГ 3: Конверт -->
+    <!-- ШАГ 3: Конверт (Строгий монохром) -->
     <div class="envelope-container" id="step3">
         <div class="envelope-hint">Нажми) 👇</div>
         <div class="envelope" onclick="openEnvelope()">
             <div class="top-flap"></div>
             <div class="envelope-body">
-                <div class="stamp">🎈</div>
+                <div class="stamp">✉️</div>
                 <div class="recipient">Получатель:<br><span>Айике</span></div>
             </div>
         </div>
@@ -207,7 +207,7 @@
             for (let i = 0; i < 50; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'floating-heart';
-                heart.innerText = ['💖', '🎉', '✨', '🌸', '💝'][Math.floor(Math.random() * 5)];
+                heart.innerText = ['🖤', '🎉', '✨', '🤍', '🎵'][Math.floor(Math.random() * 5)];
                 heart.style.left = Math.random() * 100 + 'vw';
                 heart.style.top = '100vh';
                 heart.style.fontSize = (Math.random() * 15 + 20) + 'px';
