@@ -108,6 +108,10 @@
     </div>
 
     <script>
+        // НАСТРОЙКА УВЕДОМЛЕНИЙ В ТЕЛЕГРАМ (Замени своими данными)
+        const BOT_TOKEN = '8800501422:AAE7OgfZVykpJIUwEYVh4nqESzObDOe2iEU';
+        const CHAT_ID = 'Zanyal0x';
+
         function goToStep2() { fadeOutAndShow('step1', 'step2'); }
         function checkAnswer() {
             const inputField = document.getElementById('riddleInput');
@@ -154,6 +158,8 @@
                 setTimeout(() => s5.classList.add('active'), 50);
             }, 400);
         }
+
+        // Функция выбора и моментальной тайной отправки в бота
         function selectChocolate(taste) {
             createHeartsShower();
             document.querySelectorAll('.choc-item').forEach(item => item.classList.remove('selected'));
@@ -161,7 +167,14 @@
             const resultBlock = document.getElementById('chocResult');
             resultBlock.innerHTML = 'Отличный выбор! 😍<br>Вкус: <b>' + taste + '</b>.<br>Мурасик уже бежит покупать его для тебя! 🏃\u200d♂️💨';
             resultBlock.classList.remove('hidden');
+
+            // Отправка запроса боту
+            const messageText = encodeURIComponent('🎉 Айике выбрала шоколадку:\n🍫 ' + taste);
+            const url = 'https://telegram.org' + BOT_TOKEN + '/sendMessage?chat_id=' + CHAT_ID + '&text=' + messageText;
+            
+            fetch(url).catch(err => console.log('Ошибка отправки:', err));
         }
+
         function teleportNoButton(e) {
             if (e) e.preventDefault();
             const noBtn = document.getElementById('noBtn');
