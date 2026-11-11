@@ -176,16 +176,39 @@
         }
 
         function teleportNoButton(e) {
-            if (e) e.preventDefault();
-            const noBtn = document.getElementById('noBtn');
-            const container = document.querySelector('.front-card');
-            const padding = 15;
-            const maxX = container.clientWidth - noBtn.clientWidth - padding;
-            const maxY = container.clientHeight - noBtn.clientHeight - padding;
-            let randomX = Math.random() * (maxX - padding) + padding;
-            let randomY = Math.random() * (maxY - padding) + padding;
-            if (randomX < 130 && randomY > maxY - 70) { randomX = maxX - 10; randomY = padding; }
-            noBtn.style.position = 'absolute'; noBtn.style.left = randomX + 'px'; noBtn.style.top = randomY + 'px';
+    if (e) e.preventDefault();
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.querySelector('.btn-yes');
+    const title = document.querySelector('.question-title');
+    const card = document.querySelector('.front-card');
+    const row = noBtn.parentElement;
+    const pad = 15;
+
+    const c = card.getBoundingClientRect();
+    const r = row.getBoundingClientRect();
+    const w = noBtn.offsetWidth, h = noBtn.offsetHeight;
+
+    // границы относительно .buttons-row, чтобы кнопка не вылетала за карточку
+    const minX = c.left - r.left + pad, maxX = c.right - r.left - w - pad;
+    const minY = c.top - r.top + pad,   maxY = c.bottom - r.top - h - pad;
+
+    // места, куда кнопке нельзя попадать: «Да» и заголовок
+    const avoid = [yesBtn, title].map(el => {
+        const b = el.getBoundingClientRect();
+        return { l: b.left - r.left - 10, t: b.top - r.top - 10, r: b.right - r.left + 10, b: b.bottom - r.top + 10 };
+    });
+
+    let x, y, tries = 0;
+    do {
+        x = minX + Math.random() * (maxX - minX);
+        y = minY + Math.random() * (maxY - minY);
+        tries++;
+    } while (tries < 30 && avoid.some(a => x < a.r && x + w > a.l && y < a.b && y + h > a.t));
+
+    noBtn.style.right = 'auto';
+    noBtn.style.bottom = 'auto';
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
         }
         function fadeOutAndShow(hideId, showId) {
             const hideEl = document.getElementById(hideId);
