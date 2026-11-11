@@ -648,3 +648,45 @@ body {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* ---------- Всплывающее уведомление (красное) ---------- */
+
+.toast {
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    max-width: 88%;
+    padding: 14px 26px;
+    background: linear-gradient(135deg, #ff5a4d 0%, #e53935 100%);
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap;
+    border-radius: 50px;
+    box-shadow: 0 10px 28px rgba(229, 57, 53, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    opacity: 0;
+    transform: translate(-50%, -24px) scale(0.92);
+    pointer-events: none;
+    z-index: 1000;
+    transition: opacity 0.4s var(--ease), transform 0.5s var(--ease);
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+}
+
+/* лёгкая тряска поля при неверном ответе */
+.input-field.shake {
+    animation: shake 0.45s ease-in-out;
+    border-color: #e53935;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-7px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(3px); }
+}
