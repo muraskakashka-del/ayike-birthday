@@ -181,7 +181,13 @@
 
         function showLetterText() {
             createHeartsShower();
-            document.getElementById('flipper').classList.add('flipped');
+            const flipper = document.getElementById('flipper');
+            flipper.classList.add('flipped');
+            // После переворота отключаем 3D, иначе на iPhone (Safari) текст не прокручивается
+            setTimeout(() => {
+                flipper.classList.add('flip-done');
+                document.getElementById('step4').classList.add('flip-done');
+            }, 1000);
         }
 
         function goToStep5() {
