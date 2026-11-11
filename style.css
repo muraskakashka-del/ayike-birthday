@@ -690,3 +690,37 @@ body {
     60% { transform: translateX(-4px); }
     80% { transform: translateX(3px); }
 }
+
+/* ---------- Исправление прокрутки на iPhone ---------- */
+
+/* после переворота убираем 3D: Safari не умеет прокручивать блоки внутри 3D-трансформаций */
+.flip-container.flip-done {
+    perspective: none;
+}
+
+.flipper.flip-done {
+    transform: none !important;
+    transform-style: flat;
+    transition: none;
+}
+
+.flipper.flip-done .back-card {
+    transform: none;
+    backface-visibility: visible;
+    -webkit-backface-visibility: visible;
+}
+
+.flipper.flip-done .front-card {
+    display: none;
+}
+
+.scrollable-content,
+.chocolate-card {
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+.scrollable-content {
+    padding-bottom: 10px;
+}
