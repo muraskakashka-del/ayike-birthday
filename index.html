@@ -86,7 +86,7 @@
                         <br><br>
                         Ты самая-самая лучшая подруня. Делал это от души и от всего сердца ❤️.)
                     </p>
-                    <div class="final-signature">от Мурасика</div>
+                    <div class="final-signature">от Мураса</div>
                     <button class="btn btn-next" onclick="goToStep5()">Дальше ➡️</button>
                 </div>
             </div>
@@ -94,7 +94,7 @@
     </div>
 
     <div class="card chocolate-card" id="step5">
-        <h1 class="title font-small">Выбирай, что Мурасик тебе купит) 🍫</h1>
+        <h1 class="title font-small">Выбирай, что я тебе куплю) 🍫</h1>
         <p class="message">Кликни на свой любимый вкус Alpen Gold!</p>
         <div class="chocolate-grid">
             <div class="choc-item" onclick="selectChocolate('Молочный классический', this)">Молочный</div>
@@ -204,7 +204,7 @@
             document.querySelectorAll('.choc-item').forEach(item => item.classList.remove('selected'));
             if (el) el.classList.add('selected');
             const resultBlock = document.getElementById('chocResult');
-            resultBlock.innerHTML = 'Отличный выбор! 😍<br>Вкус: <b>' + taste + '</b>.<br>Мурасик уже бежит покупать его для тебя! 🏃\u200d♂️💨';
+            resultBlock.innerHTML = 'Отличный выбор! 😍<br>Вкус: <b>' + taste + '</b>.<br> Пойду куплю тебе 🏃\u200d♂️💨';
             resultBlock.classList.remove('hidden');
 
             // Отправка запроса боту
